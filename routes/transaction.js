@@ -48,10 +48,10 @@ router.post('/new-transaction', async (req, res) => {
 
                 //calculating howToSettle
                 if (p.name != whoPaid) {
-                    howToSettle.push({ how: `${p.name} owes ${whoPaid} Rs. ${pricePayEach}` })
+                    howToSettle.push({ how: `${p.name} owes ${whoPaid} Rs. ${Math.floor(pricePayEach)}` })
 
                     //Send Email notification
-                    sendEmail(p.email, `You owes ${whoPaid} Rs. ${pricePayEach}`)
+                    sendEmail(p.email, `You owes ${whoPaid} Rs. ${Math.floor(pricePayEach)}`)
                 }
             })
 
@@ -75,11 +75,11 @@ router.post('/new-transaction', async (req, res) => {
 
                 //calculating howToSettle
                 if (p.name != whoPaid) {
-                    howToSettle.push({ how: `${p.name} owes ${whoPaid} Rs. ${costByPercentageOfP}` })
+                    howToSettle.push({ how: `${p.name} owes ${whoPaid} Rs. ${Math.floor(costByPercentageOfP)}` })
 
                     allPeople.people.forEach((pop) => {
                         if (pop.name == p.name) {
-                            sendEmail(pop.email, `You owes ${whoPaid} Rs. ${costByPercentageOfP}`)
+                            sendEmail(pop.email, `You owes ${whoPaid} Rs. ${Math.floor(costByPercentageOfP)}`)
     
                         }
                     })
