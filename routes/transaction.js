@@ -139,7 +139,7 @@ router.get('/', async (req, res) => {
 router.get('/id/:id', async (req, res) => {
     try {
         const {id} = req.params
-        const allTransaction = await Transaction.findById({id})
+        const allTransaction = await Transaction.findById(id)
 
         res.status(200).json(allTransaction)
 
