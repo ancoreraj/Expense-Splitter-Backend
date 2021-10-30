@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
         res.status(200).json(allGroups)
 
     } catch (err) {
-        return res.status(400).json({ message: 'Internal server error' })
+        return res.status(400).json({ message: 'Internal server error', err })
     }
 
 });
@@ -41,13 +41,13 @@ router.get('/', async (req, res) => {
 //@GET => /group/
 router.get('/:id', async (req, res) => {
     try {
-        const id = req.params
-        const allGroups = await Group.findById({id})
+        const {id} = req.params
+        const allGroups = await Group.findById(id)
 
         res.status(200).json(allGroups)
 
     } catch (err) {
-        return res.status(400).json({ message: 'Internal server error' })
+        return res.status(400).json({ message: 'Internal server error', err })
     }
 
 });
