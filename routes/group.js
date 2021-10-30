@@ -6,9 +6,10 @@ const Group = require('./../models/Group')
 //To create a new group
 //@POST => /group/new-group
 router.post('/new-group', (req, res) => {
-    const { people } = req.body
+    const { people, name } = req.body
 
     const newGroup = new Group({
+        name,
         people
     })
 
