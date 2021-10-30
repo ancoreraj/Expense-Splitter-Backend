@@ -18,7 +18,7 @@ mongoose
 // Express body parser
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
-
+app.use(cors())
 // Routes
 app.use('/group', require('./routes/group.js'));
 app.use('/transaction', require('./routes/transaction.js'));
