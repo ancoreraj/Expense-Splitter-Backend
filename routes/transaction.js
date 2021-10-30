@@ -134,6 +134,23 @@ router.get('/', async (req, res) => {
 
 });
 
+//To get a transaction of given id
+//@GET => /transaction/id/:id
+router.get('/id/:id', async (req, res) => {
+    try {
+        const {id} = req.params
+        const allTransaction = await Transaction.findById({id})
+
+        res.status(200).json(allTransaction)
+
+    } catch (err) {
+        return res.status(400).json({ message: 'Internal server error' })
+    }
+
+});
+
+
+
 
 //To get all the transaction of a given groupId
 //@GET => /transaction/:groupId
