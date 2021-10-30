@@ -17,7 +17,7 @@ router.post('/new-group', (req, res) => {
         if (err) {
             return res.status(400).json({ message: 'Internal server error' })
         }
-        res.status(200).json({ message: 'New Group Created Successfully' })
+        res.status(200).json({ message: 'New Group Created Successfully', newGroup })
     })
 
 });
@@ -28,6 +28,21 @@ router.post('/new-group', (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const allGroups = await Group.find({})
+
+        res.status(200).json(allGroups)
+
+    } catch (err) {
+        return res.status(400).json({ message: 'Internal server error' })
+    }
+
+});
+
+//To Get all the groups
+//@GET => /group/
+router.get('/:id', async (req, res) => {
+    try {
+        const id = req.params
+        const allGroups = await Group.findById({id})
 
         res.status(200).json(allGroups)
 
