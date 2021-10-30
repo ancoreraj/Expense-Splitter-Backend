@@ -15,7 +15,7 @@ router.post('/new-group', (req, res) => {
 
     newGroup.save((err) => {
         if (err) {
-            return res.status(400).json({ message: 'Internal server error' })
+            return res.status(400).json({ message: 'Internal server error', err })
         }
         res.status(200).json({ message: 'New Group Created Successfully', newGroup })
     })
