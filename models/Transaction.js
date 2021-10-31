@@ -43,6 +43,15 @@ const TransactionSchema = new mongoose.Schema({
     howToSettle: [{
         how: {
             type: String
+        },
+        name1:{
+            type: String
+        },
+        name2: {
+            type: String
+        },
+        money: {
+            type: Number
         }
     }]
     
