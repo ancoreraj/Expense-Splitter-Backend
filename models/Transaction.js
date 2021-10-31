@@ -52,6 +52,9 @@ const TransactionSchema = new mongoose.Schema({
         },
         money: {
             type: Number
+        },
+        settled: {
+            type: Boolean
         }
     }]
     

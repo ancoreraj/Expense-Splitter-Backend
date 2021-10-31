@@ -24,6 +24,6 @@ app.use(cors())
 app.use('/group', require('./routes/group.js'));
 app.use('/transaction', require('./routes/transaction.js'));
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, console.log(`Server running on  ${PORT}`));

@@ -48,7 +48,7 @@ router.post('/new-transaction', async (req, res) => {
 
                 //calculating howToSettle
                 if (p.name != whoPaid) {
-                    howToSettle.push({ how: `${p.name} owes ${whoPaid} Rs. ${Math.floor(pricePayEach)}`, name1: p.name, name2: whoPaid, money: Math.floor(pricePayEach)})
+                    howToSettle.push({ how: `${p.name} owes ${whoPaid} Rs. ${Math.floor(pricePayEach)}`, name1: p.name, name2: whoPaid, money: Math.floor(pricePayEach), settled: false })
 
                     //Send Email notification
                     sendEmail(p.email, `You owes ${whoPaid} Rs. ${Math.floor(pricePayEach)}`)
@@ -75,7 +75,7 @@ router.post('/new-transaction', async (req, res) => {
 
                 //calculating howToSettle
                 if (p.name != whoPaid) {
-                    howToSettle.push({ how: `${p.name} owes ${whoPaid} Rs. ${Math.floor(costByPercentageOfP)}`, name1: p.name, name2: whoPaid, money: Math.floor(costByPercentageOfP) })
+                    howToSettle.push({ how: `${p.name} owes ${whoPaid} Rs. ${Math.floor(costByPercentageOfP)}`, name1: p.name, name2: whoPaid, money: Math.floor(costByPercentageOfP), settled: false })
 
                     allPeople.people.forEach((pop) => {
                         if (pop.name == p.name) {
@@ -185,37 +185,43 @@ router.post('/settle/:id', async (req, res) => {
     try {
         const { id } = req.params
         const { how, name1, name2, money } = req.body
-        const findTransaction = Transaction.findById(id)
+        const findTransaction = await Transaction.findById(id)
 
-        if(!findTransaction){
-            res.status(400).json({message: 'Data not found'})
+        if (!findTransaction) {
+            res.status(400).json({ message: 'Data not found' })
         }
 
-        findTransaction.individualBalance.forEach((e)=>{
-            if(e.name === name1){
+        findTransaction.individualBalance.forEach((e) => {
+            if (e.name === name1) {
                 e.balance = 0
             }
 
-            if(e.name === name2){
+            if (e.name === name2) {
                 e.balance -= money
             }
         })
 
-        findTransaction.howToSettle.forEach((e)=>{
-            if(e.how === how){
+
+        findTransaction.howToSettle.forEach((e) => {
+            if (e.how === how) {
                 e.how = `Balance settled between ${name1} and ${name2}`
+                e.settled = true
             }
         })
 
-        findTransaction.save((err)=>{
-            if(err){
-                return res.status(400).json({message: 'Internal Server error'})
+        findTransaction.save((err) => {
+            if (err) {
+                console.log(err)
+
+
+                return res.status(400).json({ message: 'Internal Server error' })
             }
-            res.status(200).json({message: 'Settled'})
+            res.status(200).json({ message: 'Settled' })
         })
 
     } catch (err) {
-        return res.status(400).json({message: 'Internal Server error'})
+        console.log(err)
+        return res.status(400).json({ message: 'Internal Server error' })
     }
 
 })
